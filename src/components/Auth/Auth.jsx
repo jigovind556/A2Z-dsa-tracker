@@ -54,7 +54,7 @@ const Auth = ({data}) => {
     }
   return (
       <div>
-          {user!="" ?
+          {(user!=null && user!="" )?
           <div>
             <Img src={user.image} ml={6} w={10} h={10} borderRadius={'50%'} />
           </div>

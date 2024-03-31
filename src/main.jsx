@@ -11,10 +11,10 @@ import Home from './home.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-            <ChakraProvider theme={chakraTheme}>
-                <BrowserRouter>
-                    <Home/>
-                </BrowserRouter>
-            </ChakraProvider>
+        <ChakraProvider theme={chakraTheme}>
+            <BrowserRouter basename="A2Z-dsa-tracker">
+                <Home />
+            </BrowserRouter>
+        </ChakraProvider>
     </React.StrictMode>
 )

@@ -14,7 +14,7 @@ function App({ fetchData }) {
     useEffect(() => {
         localStorage.setItem('A2Z_Archive', JSON.stringify(data))
         // let timeoutId;
-        if (user !== '') {
+        if (user !=null &&  user != '') {
             const docRef = doc(db, 'data', user.uid);
             // clearTimeout(timeoutId);
             // timeoutId = setTimeout(() => {
