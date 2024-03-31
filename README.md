@@ -14,6 +14,7 @@
 - **Complete local storage 📂**
 - **Mobile first design ✌🏻**
 - **Clean UI ⚡**
+- **Login and keep data globally⚡**
 - **[Stress Relief Game] 🎮**
 
 ## What is A2Z-DSA Tracker 🤔
@@ -42,7 +43,7 @@ https://user-images.githubusercontent.com/63164037/193985341-85f57456-6057-4444-
 > Clone the repo
     >> For Windows: Git Bash
     >> For Linux: Terminal
-    >> git clone https://github.com/aditya-190/a2zdsa.git
+    >> git clone https://github.com/jigovind556/A2Z-dsa-tracker.git
     
 > Change the folder location to your source Code Folder
     >> cd a2zdsa/src
@@ -73,22 +74,4 @@ https://user-images.githubusercontent.com/63164037/193985341-85f57456-6057-4444-
 
 ## Developed By 👦
 
-<h2 align="center">Aditya Bhardwaj</h2>
-<p align="center">
-  <a href="https://github.com/aditya-190"><img src="https://avatars.githubusercontent.com/u/63164037?v=4" width=150px height=150px  alt="Aditya Bhardwaj"/></a> 
-
-<p align="center">
-  <a target="_blank" href="https://www.linkedin.com/in/adi-bhardwaj/"><img src="https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"  alt="Aditya Bhardwaj"/></a>&nbsp;&nbsp;&nbsp;
-  <a href="mailto:aadi.bbhardwaj@gmail.com?subject=Hello%20Aditya,%20From%20Github"><img src="https://img.shields.io/badge/gmail-%23D14836.svg?&style=for-the-badge&logo=gmail&logoColor=white"  alt="Aditya Bhardwaj"/></a>
-</p>
-
-[here]: https://www.youtube.com/watch?v=rHn9af16O_E
-[A2Z DSA Tracker]: https://a2zdsa.pages.dev/
-[A2Z]: https://a2zdsa.pages.dev/
-[striver]: https://in.linkedin.com/in/rajarvp
-[a2z dsa cracker sheet]: https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/
-[Stress Relief Game]: https://a2zdsa.pages.dev/play
-[react]: https://reactjs.org/
-[chakra ui]: https://chakra-ui.com/
-[450]: https://450dsa.com/
-[V Asish Raju]: https://www.linkedin.com/in/asishraju/
+<h2 align="center">The ERRORs</h2>
