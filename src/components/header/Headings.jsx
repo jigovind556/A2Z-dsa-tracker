@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
 
 import { DarkModeToggle } from '../icons/ProjectIcons.jsx'
+import Auth from '../Auth/Auth.jsx'
 
 const Headings = ({ data, setData }) => {
     const heading = 'A2Z DSA Tracker'
@@ -28,6 +29,7 @@ const Headings = ({ data, setData }) => {
                 {heading}
             </Text>
             <DarkModeToggle data={data} setData={setData} toShow={true} />
+            <Auth data={data}/>
         </Flex>
     )
 }

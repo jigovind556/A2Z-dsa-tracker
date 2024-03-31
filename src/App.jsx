@@ -4,13 +4,24 @@ import { Route, Routes } from 'react-router-dom'
 import DSA from './components/index.jsx'
 import { Flex } from '@chakra-ui/react'
 import { Reacteroids } from './components/NotFound/Reacteroids.jsx'
+import useUser from './context/userContext.js'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from './firebase.jsx'
 
 function App({ fetchData }) {
     const [data, setData] = useState(fetchData)
-
+    const { user, setUser } = useUser()
     useEffect(() => {
         localStorage.setItem('A2Z_Archive', JSON.stringify(data))
-    }, [data])
+        // let timeoutId;
+        if (user !== '') {
+            const docRef = doc(db, 'data', user.uid);
+            // clearTimeout(timeoutId);
+            // timeoutId = setTimeout(() => {
+            setDoc(docRef, data);
+            // }, 1500);
+        }
+    }, [data,user])
 
     return (
         <Routes>
