@@ -1,84 +1,79 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import DiffChecker from './components/common/DiffChecker.js'
 import ultimateData from './components/common/ultimateData.js'
 import { UserProvider } from './context/userContext.js'
-import App from './App.jsx';
-import { db } from './firebase.jsx';
-import { doc, getDoc } from 'firebase/firestore';
-import { set } from 'husky';
+import App from './App.jsx'
+import { db } from './firebase.jsx'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 const Home = () => {
-    // let fetchData = localStorage.getItem('A2Z_Archive')
-    // fetchData = fetchData === null ? ultimateData : JSON.parse(fetchData)
-    // fetchData = DiffChecker(ultimateData, fetchData)
-    const [fetchData, setFetchData] = useState()
-    const [user, setUser] = useState("")
+    const [data, setData] = useState(null)
+    const [user, setUser] = useState(null)
 
-    useEffect(()=>{
-        if(user===""){
-            checkUser();
-        }
-        else {
-            checkData();
-        }
-    },[user])
-
-    const checkUser= async ()=>{
-        const udata= localStorage.getItem('user');
-        if(udata!=null && udata!==""){
-            setUser(JSON.parse(udata));
-        }else{
-            checkData();
-        }
-    }
-
-    const checkData = async ()=>{
-        let fetchData = ultimateData
-        console.log("hello");
-        try {
-            if(user!=null &&  user!=="") {
-                //fetch data from firebase cloud firestore
-                const docRef = doc(db, 'data', user?.uid)
-                const docSnap = await getDoc(docRef)
-                if (docSnap.exists()) {
-                    fetchData = docSnap.data()
-                    fetchData = DiffChecker(ultimateData, fetchData)
-                    localStorage.setItem('A2Z_Archive', JSON.stringify(fetchData))
-                    setFetchData(fetchData)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log('one')
+                const localData = localStorage.getItem('A2Z_Archive')
+                if (localData && !user) {
+                    console.log('two')
+                    setUser(JSON.parse(localStorage.getItem('user')))
                 }
-                else{
-                    fetchData = localStorage.getItem('A2Z_Archive')
-                    fetchData = fetchData === null ? ultimateData : JSON.parse(fetchData)
-                    fetchData = DiffChecker(ultimateData, fetchData)
-                    setFetchData(fetchData)
+                if (user) {
+                    console.log('three')
+                    const docRef = doc(db, 'data', user.uid)
+                    const docSnap = await getDoc(docRef)
+                    if (docSnap.exists()) {
+                        console.log('four: data exists in firebase')
+                        setData(docSnap.data())
+                    } else {
+                        console.log('five: data does not exist in firebase')
+                        if (localData) {
+                            console.log('six: using local data')
+                            setData(JSON.parse(localData))
+                        }
+                    }
                 }
-    
+            } catch (error) {
+                console.log('Error fetching data:', error)
             }
-            else{
-                fetchData = localStorage.getItem('A2Z_Archive')
-                fetchData = fetchData === null ? ultimateData : JSON.parse(fetchData)
-                fetchData = DiffChecker(ultimateData, fetchData)
-                setFetchData(fetchData)
-            }
-        } catch (error) {
-            console.log("error fetching data from firebase");
-            console.log(error);
-            let fetchData = ultimateData
-            fetchData = localStorage.getItem('A2Z_Archive')
-            fetchData =
-                fetchData === null ? ultimateData : JSON.parse(fetchData)
-            fetchData = DiffChecker(ultimateData, fetchData)
-            setFetchData(fetchData)
         }
-        
-    }
 
+        fetchData()
+    }, [user])
 
-  return (
-      <UserProvider value={{user,setUser}}>
-          {fetchData? <App fetchData={fetchData} /> : <div>Loading...</div>}
-      </UserProvider>
-  )
+    useEffect(() => {
+        const saveToLocalStorage = () => {
+            if (data) {
+                console.log('seven: saving data to local storage')
+                localStorage.setItem('A2Z_Archive', JSON.stringify(data))
+            }
+        }
+
+        saveToLocalStorage()
+    }, [data])
+
+    useEffect(() => {
+        const saveToFirebase = async () => {
+            if (user && data) {
+                console.log('eight: saving data to firebase')
+                const docRef = doc(db, 'data', user.uid)
+                await setDoc(docRef, data)
+            }
+        }
+
+        saveToFirebase()
+    }, [user, data])
+
+    return (
+        <UserProvider value={{ user, setUser }}>
+            {data ? (
+                <App data={data} setData={setData} />
+            ) : (
+                <div>Loading...</div>
+            )}
+        </UserProvider>
+    )
 }
 
-export default Home;
+export default Home

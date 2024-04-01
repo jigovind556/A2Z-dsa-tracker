@@ -29,7 +29,7 @@ const Headings = ({ data, setData }) => {
                 {heading}
             </Text>
             <DarkModeToggle data={data} setData={setData} toShow={true} />
-            <Auth data={data}/>
+            <Auth data={data} setData={setData}/>
         </Flex>
     )
 }

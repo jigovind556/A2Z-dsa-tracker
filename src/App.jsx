@@ -8,21 +8,8 @@ import useUser from './context/userContext.js'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from './firebase.jsx'
 
-function App({ fetchData }) {
-    const [data, setData] = useState(fetchData)
-    const { user, setUser } = useUser()
-    useEffect(() => {
-        localStorage.setItem('A2Z_Archive', JSON.stringify(data))
-        // let timeoutId;
-        if (user !=null &&  user != '') {
-            const docRef = doc(db, 'data', user.uid);
-            // clearTimeout(timeoutId);
-            // timeoutId = setTimeout(() => {
-            setDoc(docRef, data);
-            // }, 1500);
-        }
-    }, [data,user])
-
+function App({ data, setData }) {
+    
     return (
         <Routes>
             <Route
