@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react'
 
-import Ads from './Ads.jsx'
+// import Ads from './Ads.jsx'
 import Headings from './Headings.jsx'
 import SearchBar from './SearchBar.jsx'
 import SubHeadings from './SubHeadings.jsx'
@@ -26,7 +26,7 @@ const Header = ({
             justifyContent={'center'}
             userSelect={'none'}
         >
-            <Ads data={data} />
+            {/* <Ads data={data} /> */}
             <Headings data={data} setData={setData} />
             <SubHeadings
                 data={data}

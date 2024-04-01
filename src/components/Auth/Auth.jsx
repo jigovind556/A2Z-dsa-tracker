@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 
 // import {FcGoogle} from 'react-icons/fc'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup,signOut } from "firebase/auth";
 // import { toast } from 'react-toastify';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 // import { db } from '../firebase.js';
@@ -52,31 +52,91 @@ const Auth = ({data}) => {
             console.log(error)
         }
     }
+    const auth = getAuth();
+    function onLogOut(){
+        // const auth = getAuth();
+        // if (auth.currentUser) {
+        //     auth.signOut.then(() => {
+        //         // Sign-out successful.
+        //         setUser(null);
+        //         localStorage.removeItem('user');  // Clear the user object
+        //         // Optionally, you can navigate to another page after logging out
+        //         // navigate("/");
+        //     }).catch((error) => {
+        //         // An error happened.
+        //         console.error('Sign out failed:', error);
+        //     });
+        // }
+
+        if (user) {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+              }).catch((error) => {
+                // An error happened.
+              });
+            setUser(null); // Clear the user object
+            localStorage.removeItem('A2Z_Archive')
+            localStorage.removeItem('user'); // Remove user data from localStorage if any
+            
+        }
+    }
+
   return (
       <div>
-          {(user!=null && user!="" )?
-          <div>
-            <Img src={user.image} ml={6} w={10} h={10} borderRadius={'50%'} />
-          </div>
-          :<Text
-              w={'fit-content'}
-              h={'fit-content'}
-              ml={6}
-              px={4}
-              py={1}
-              bg={isDarkMode ? 'startNowBg_dark' : 'startNowBg'}
-              borderRadius={'16px'}
-              fontWeight={'md'}
-              fontSize={'xs'}
-              fontFamily={'customFamily'}
-              fontStyle={'normal'}
-              color={'secondaryColor'}
-              cursor={'pointer'}
-              whiteSpace={'nowrap'}
-              onClick={onGoogleClick}
-          >
-              Login
-          </Text>}
+            {(user!=null && user!="" )?
+            <Flex
+            px={6}
+            mt={4}
+            flexDirection={'row'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            >
+                <div>
+                <Img mr={5} src={user.image} ml={6} w={10} h={10} borderRadius={'50%'} />
+                </div>
+
+            <Text
+                w={'fit-content'}
+                h={'fit-content'}
+                ml={6}
+                px={4}
+                py={1}
+                bg={isDarkMode ? 'startNowBg_dark' : 'startNowBg'}
+                borderRadius={'16px'}
+                fontWeight={'md'}
+                fontSize={'xs'}
+                fontFamily={'customFamily'}
+                fontStyle={'normal'}
+                color={'secondaryColor'}
+                cursor={'pointer'}
+                whiteSpace={'nowrap'}
+                onClick={onLogOut}
+            >
+                Sign out
+            </Text>
+            
+            </Flex>
+            
+
+            :<Text
+                w={'fit-content'}
+                h={'fit-content'}
+                ml={6}
+                px={4}
+                py={1}
+                bg={isDarkMode ? 'startNowBg_dark' : 'startNowBg'}
+                borderRadius={'16px'}
+                fontWeight={'md'}
+                fontSize={'xs'}
+                fontFamily={'customFamily'}
+                fontStyle={'normal'}
+                color={'secondaryColor'}
+                cursor={'pointer'}
+                whiteSpace={'nowrap'}
+                onClick={onGoogleClick}
+            >
+                Login
+            </Text>}
       </div>
   )
 }
