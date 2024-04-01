@@ -16,11 +16,14 @@ import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase'
 import useUser from '../../context/userContext'
 import ultimateData from '../common/ultimateData'
+import useLoading from '../../context/loadingContext'
+import { set } from 'husky'
 
 const Auth = ({ data, setData }) => {
     const isDarkMode = data.data.header.darkMode
     const { user, setUser } = useUser()
 
+    const {loading, setLoading} = useLoading();
     async function onGoogleClick() {
         try {
             const auth = getAuth()
@@ -41,7 +44,7 @@ const Auth = ({ data, setData }) => {
             if (!docSnap.exists()) {
                 await setDoc(docRef, currUser)
             }
-
+            setLoading(true)
             localStorage.setItem('user', JSON.stringify(currUser))
             setUser(currUser)
         } catch (error) {
@@ -56,6 +59,7 @@ const Auth = ({ data, setData }) => {
         if (user) {
             signOut(auth)
                 .then(() => {
+                    setLoading(true)
                     localStorage.removeItem('user')
                     localStorage.removeItem('A2Z_Archive')
                     setUser(null)

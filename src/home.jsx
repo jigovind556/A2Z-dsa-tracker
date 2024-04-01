@@ -5,10 +5,12 @@ import { UserProvider } from './context/userContext.js'
 import App from './App.jsx'
 import { db } from './firebase.jsx'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { LoadingProvider } from './context/loadingContext.js'
 
 const Home = () => {
     const [data, setData] = useState(null)
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true) // New loading state
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +38,8 @@ const Home = () => {
                 }
             } catch (error) {
                 console.log('Error fetching data:', error)
+            } finally {
+                setLoading(false) // Set loading to false when fetch is complete
             }
         }
 
@@ -62,17 +66,24 @@ const Home = () => {
             }
         }
 
-        saveToFirebase()
-    }, [user, data])
+        if (!loading) {
+            // Only save to Firebase if loading is false
+            saveToFirebase()
+        }
+    }, [user, data, loading])
 
     return (
-        <UserProvider value={{ user, setUser }}>
-            {data ? (
-                <App data={data} setData={setData} />
-            ) : (
-                <div>Loading...</div>
-            )}
-        </UserProvider>
+        <LoadingProvider value={{ loading, setLoading }}>
+            <UserProvider value={{ user, setUser }}>
+                {loading ? ( // Render loading message while fetching and setting data
+                    <div>Loading...</div>
+                ) : data ? (
+                    <App data={data} setData={setData} />
+                ) : (
+                    <div>No data available</div>
+                )}
+            </UserProvider>
+        </LoadingProvider>
     )
 }
 
