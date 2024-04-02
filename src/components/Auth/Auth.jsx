@@ -17,7 +17,6 @@ import { db } from '../../firebase'
 import useUser from '../../context/userContext'
 import ultimateData from '../common/ultimateData'
 import useLoading from '../../context/loadingContext'
-import { set } from 'husky'
 
 const Auth = ({ data, setData }) => {
     const isDarkMode = data.data.header.darkMode

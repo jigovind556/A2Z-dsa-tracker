@@ -6,34 +6,55 @@ import App from './App.jsx'
 import { db } from './firebase.jsx'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { LoadingProvider } from './context/loadingContext.js'
+import { useToast } from '@chakra-ui/react'
 
 const Home = () => {
     const [data, setData] = useState(null)
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true) // New loading state
+    const toast = useToast()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 console.log('one')
                 const localData = localStorage.getItem('A2Z_Archive')
-                if (localData && !user) {
+                var tempUser = user;
+                if (localData && !tempUser) {
                     console.log('two')
                     setUser(JSON.parse(localStorage.getItem('user')))
+                    tempUser = JSON.parse(localStorage.getItem('user'))
+                    // console.log(tempUser);
                 }
-                if (user) {
+                if (tempUser) {
                     console.log('three')
-                    const docRef = doc(db, 'data', user.uid)
+                    const docRef = doc(db, 'data', tempUser.uid)
                     const docSnap = await getDoc(docRef)
                     if (docSnap.exists()) {
                         console.log('four: data exists in firebase')
-                        setData(docSnap.data())
+                        var tempData =  docSnap.data()
+                        setData(tempData)
                     } else {
                         console.log('five: data does not exist in firebase')
                         if (localData) {
                             console.log('six: using local data')
                             setData(JSON.parse(localData))
                         }
+                        else {
+                            console.log('six: using ultimate data')
+                            setData(ultimateData)
+                        }
+                    }
+                }
+                else{
+                    console.log('seven: no user')
+                    if (localData) {
+                        console.log('eight: using local data')
+                        setData(JSON.parse(localData))
+                    }
+                    else {
+                        console.log('eight: using ultimate data')
+                        setData(ultimateData)
                     }
                 }
             } catch (error) {
@@ -63,12 +84,23 @@ const Home = () => {
                 console.log('eight: saving data to firebase')
                 const docRef = doc(db, 'data', user.uid)
                 await setDoc(docRef, data)
+                toast({
+                    title: 'Data Saved to firebase.',
+                    // description: "We've created your account for you.",
+                    status: 'success',
+                    duration: 1200,
+                    isClosable: true,
+                })
             }
         }
 
         if (!loading) {
             // Only save to Firebase if loading is false
-            saveToFirebase()
+            const timeoutId = setTimeout(() => {
+                // Call the API after a delay, only if there's been no change for 500ms
+                saveToFirebase();
+            }, 500)
+            return () => clearTimeout(timeoutId)
         }
     }, [user, data, loading])
 
