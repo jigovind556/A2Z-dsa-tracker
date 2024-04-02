@@ -83,14 +83,31 @@ const Home = () => {
             if (user && data) {
                 console.log('eight: saving data to firebase')
                 const docRef = doc(db, 'data', user.uid)
-                await setDoc(docRef, data)
-                toast({
-                    title: 'Data Saved to firebase.',
-                    // description: "We've created your account for you.",
-                    status: 'success',
-                    duration: 1200,
-                    isClosable: true,
+                toast.promise(setDoc(docRef, data), {
+                    success: {
+                        title: 'Saved in Database',
+                        duration: 1200,
+                        isClosable: true,
+                        // description: 'Looks great',
+                    },
+                    error: {
+                        title: 'Error saving to Database',
+                        // description: 'Something wrong',
+                    },
+                    loading: {
+                        title: 'Saving in Database',
+                        // description: 'Please wait',
+                    },
                 })
+
+                // await 
+                // toast({
+                //     title: 'Data Saved to firebase.',
+                //     // description: "We've created your account for you.",
+                //     status: 'success',
+                //     duration: 1200,
+                //     isClosable: true,
+                // })
             }
         }
 
