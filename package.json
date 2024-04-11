@@ -2,7 +2,7 @@
     "name": "a2z",
     "private": true,
     "version": "0.1.0",
-    "homepage": "https://jigovind556.github.io/A2Z-dsa-tracker/",
+    // "homepage": "https://jigovind556.github.io/A2Z-dsa-tracker/",
     "type": "module",
     "scripts": {
         "dev": "vite --port 3000",
